@@ -57,7 +57,7 @@ function detect_upload($filename) {
 function detect_shell($filecontent) {
 	global $shells;
 	foreach ($shells as $shell) {
-		if (preg_match("/$shell/",implode($filecontent))) {
+		if (strpos(implode($filecontent,$shell))) {
 			return true;
 		}
 	}
