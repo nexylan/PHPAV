@@ -15,7 +15,10 @@ Usage
 php scan.php /path/to/scan
 ```
 
-### Inspiration
+Inspiration
+---
+
+### Websites
 
 - [Malicious Code Scanner](https://github.com/mikestowe/Malicious-Code-Scanner)
 - [PHP Shell Detector](https://github.com/emposha/PHP-Shell-Detector)
