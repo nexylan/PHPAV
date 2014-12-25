@@ -25,7 +25,7 @@
 
     include (dirname(__FILE__).'/lib/color.class.php');
 // We are Gentoo users, we love color in bash shell :)
-    $colors = new Colors();
+   	global $colors = new Colors();
 
 
 // Detect more than 10000 consecutive characters on first line
