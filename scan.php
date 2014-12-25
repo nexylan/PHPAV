@@ -23,20 +23,20 @@
     http://www.nexylan.com/
 */
 
-include (dirname(__FILE__).'/lib/color.class.php');
+    include (dirname(__FILE__).'/lib/color.class.php');
 // We are Gentoo users, we love color in bash shell :)
-$colors = new Colors();
+    $colors = new Colors();
 
 
 // Detect more than 10000 consecutive characters on first line
-function detect_obfuscated($filecontent) {
+    function detect_obfuscated($filecontent) {
 	if (isset($filecontent[0]) && strlen($filecontent[0]) > 10000 && preg_match("/[A-Za-z0-9]{10000}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
 		return true;
 	}
 	return false;
 }
 
-// Fetect eval functions on first line
+// Detect eval functions on first line
 function detect_onelineshell($filecontent) {
 	if (isset($filecontent[0]) && preg_match("/eval\(/",$filecontent[0])) {
 		return true;
@@ -44,18 +44,22 @@ function detect_onelineshell($filecontent) {
 	return false;
 }
 
+function report_file($file) {
+	$colors->getColoredString("\tInfected file : $file","red");
+}
+
 // Main(void)
 if (empty($argv[1])) die("Usage: php find.php directory_to_scan > infected.txt\n");
 else {
-        fwrite(STDERR, "Scanning " . $argv[1] . " for potential obfuscated malware...\n\n");
-        $data = array();
+	echo $colors->getColoredString("Scanning " . $argv[1] . " for potential obfuscated malware...\n\n","green");
+	$data = array();
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1]),RecursiveIteratorIterator::SELF_FIRST); // Grab array of the entire structures of $argv[1] (a directory)
         $c = 0; // Counter for files processed
         $f = 0; // Counter for files with potential malware
         foreach ($files as $file)
         {
                 if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
-                        fwrite(STDERR, "Processed " . $c . " files, found " . $f . "\n");
+                	echo $colors->getColoredString("Processed " . $c . " files, found " . $f . "\n","purple");
                 }
                 if (is_dir($file) === true) // Not in use, was used to check directory traversal was working properly
                 {
@@ -64,14 +68,14 @@ else {
                 else { // If is file
                         if (strpos($file, '.php') !== false || strpos($file, '.py') !== false || strpos($file, '.pl') !== false) { // Currently only selects PHP, Python and Perl scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-								if (detect_obfuscated($arr) || detect_onelineshell($arr)) {
-                                        echo $file . "\n";
-                                        $f++;
+                                if (detect_obfuscated($arr) || detect_onelineshell($arr)) {
+                                	report_file($file);
+                                	$f++;
                                 }
+                            }
                         }
+                        $c++;
+                    }
                 }
-                $c++;
-        }
-}
 
-?>
+                ?>
