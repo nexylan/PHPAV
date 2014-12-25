@@ -92,7 +92,7 @@ else {
                         //echo "Traversing into " . strval($file);
                 }
                 else { // If is file
-                        if (preg_match("/\.php$/",$file) !== false ) { // Currently only selects PHP scripts for scanning
+                        if (preg_match("/\.php$/",$file)) { // Currently only selects PHP scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
                                 if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file) || detect_shell($arr)) {
                                 	report_file($file);
