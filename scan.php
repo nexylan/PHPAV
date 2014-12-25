@@ -46,7 +46,7 @@ function detect_onelineshell($filecontent) {
 
 // Detect escaped
 function detect_upload($filename) {
-	if (preg_match("/wp-content/uploads",$filename)) {
+	if (preg_match("#/wp-content/uploads#",$filename)) {
 		return true;
 	}
 	return false;
