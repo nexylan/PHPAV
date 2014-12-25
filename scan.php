@@ -46,7 +46,7 @@ function detect_onelineshell($filecontent) {
 
 function report_file($file) {
 	global $colors;
-	$colors->getColoredString("\tInfected file : $file","red");
+	echo $colors->getColoredString("\tInfected file : $file","red");
 }
 
 // Main(void)
