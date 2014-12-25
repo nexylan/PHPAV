@@ -23,13 +23,14 @@
     http://www.nexylan.com/
 */
 
-    include (dirname(__FILE__).'/lib/color.class.php');
+include (dirname(__FILE__).'/lib/color.class.php');
 // We are Gentoo users, we love color in bash shell :)
-   	global $colors = new Colors();
+global $colors;
+$colors = new Colors();	
 
 
 // Detect more than 10000 consecutive characters on first line
-    function detect_obfuscated($filecontent) {
+function detect_obfuscated($filecontent) {
 	if (isset($filecontent[0]) && strlen($filecontent[0]) > 10000 && preg_match("/[A-Za-z0-9]{10000}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
 		return true;
 	}
