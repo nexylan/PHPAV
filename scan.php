@@ -25,7 +25,6 @@
 
 include (dirname(__FILE__).'/lib/color.class.php');
 // We are Gentoo users, we love color in bash shell :)
-global $colors;
 $colors = new Colors();	
 
 
@@ -46,6 +45,7 @@ function detect_onelineshell($filecontent) {
 }
 
 function report_file($file) {
+	global $colors;
 	$colors->getColoredString("\tInfected file : $file","red");
 }
 
