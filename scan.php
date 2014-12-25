@@ -46,7 +46,7 @@ function detect_onelineshell($filecontent) {
 
 function report_file($file) {
 	global $colors;
-	echo $colors->getColoredString("\tInfected file : $file","red");
+	echo $colors->getColoredString("\tInfected file : $file\n","red");
 }
 
 // Main(void)
@@ -59,9 +59,9 @@ else {
         $f = 0; // Counter for files with potential malware
         foreach ($files as $file)
         {
-                if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
-                	echo $colors->getColoredString("Processed " . $c . " files, found " . $f . "\n","purple");
-                }
+                //if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
+                	//echo $colors->getColoredString("Processed " . $c . " files, found " . $f . "\n","purple");
+                //}
                 if (is_dir($file) === true) // Not in use, was used to check directory traversal was working properly
                 {
                         //echo "Traversing into " . strval($file);
