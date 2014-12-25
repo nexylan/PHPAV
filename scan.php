@@ -55,8 +55,11 @@ function detect_upload($filename) {
 }
 
 function detect_shell($filecontent) {
-	if (preg_match("#/usr/bin/host#",implode($filecontent))) {
-		return true;
+	global $shells;
+	foreach ($shells as $shell) {
+		if (preg_match("/$shell/",implode($filecontent))) {
+			return true;
+		}
 	}
 	return false;
 }
@@ -74,6 +77,10 @@ else {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1]),RecursiveIteratorIterator::SELF_FIRST); // Grab array of the entire structures of $argv[1] (a directory)
         $c = 0; // Counter for files processed
         $f = 0; // Counter for files with potential malware
+
+        // Preload data
+        $shells = file(dirname(__FILE__).'/data/webshells.txt');
+
         foreach ($files as $file)
         {
                 //if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
