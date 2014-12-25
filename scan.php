@@ -77,7 +77,7 @@ else {
                 else { // If is file
                         if (strpos($file, '.php') !== false || strpos($file, '.py') !== false || strpos($file, '.pl') !== false) { // Currently only selects PHP, Python and Perl scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr) || detect_onelineshell($arr)) || detect_upload ($file) {
+                                if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file)) {
                                 	report_file($file);
                                 	$f++;
                                 }
