@@ -30,7 +30,7 @@ $colors = new Colors();
 
 // Detect more than 10000 consecutive characters on first line
 function detect_obfuscated($filecontent) {
-	if (isset($filecontent[0]) && strlen($filecontent[0]) > 10000 && preg_match("/[A-Za-z0-9]{10000}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
+	if (isset($filecontent[0]) && strlen($filecontent[0]) > 10000 && preg_match("/[A-Za-z0-9\\]{10000}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
 		return true;
 	}
 	return false;
@@ -39,6 +39,14 @@ function detect_obfuscated($filecontent) {
 // Detect eval functions on first line
 function detect_onelineshell($filecontent) {
 	if (isset($filecontent[0]) && preg_match("/eval\(/",$filecontent[0])) {
+		return true;
+	}
+	return false;
+}
+
+// Detect escaped
+function detect_upload($filename) {
+	if (preg_match("/wp-content/uploads",$filename)) {
 		return true;
 	}
 	return false;
@@ -69,7 +77,7 @@ else {
                 else { // If is file
                         if (strpos($file, '.php') !== false || strpos($file, '.py') !== false || strpos($file, '.pl') !== false) { // Currently only selects PHP, Python and Perl scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr) || detect_onelineshell($arr)) {
+                                if (detect_obfuscated($arr) || detect_onelineshell($arr)) || detect_upload ($file) {
                                 	report_file($file);
                                 	$f++;
                                 }
