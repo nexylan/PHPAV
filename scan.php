@@ -30,7 +30,7 @@ $colors = new Colors();
 
 // Detect more than 10000 consecutive characters on first line
 function detect_obfuscated($filecontent) {
-	$weirdlength = 100;
+	$weirdlength = 10000;
 	if (isset($filecontent[0]) && strlen($filecontent[0]) > $weirdlength && preg_match("/[A-Za-z0-9\\\]{$weirdlength}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
 		echo $filecontent;
 		return true;
@@ -49,6 +49,13 @@ function detect_onelineshell($filecontent) {
 // Detect escaped
 function detect_upload($filename) {
 	if (preg_match("#/wp-content/uploads#",$filename)) {
+		return true;
+	}
+	return false;
+}
+
+function detect_shell($filecontent) {
+	if (preg_match("/[A-Za-z0-9\\\]{100}/",implode($filecontent))) {
 		return true;
 	}
 	return false;
@@ -79,7 +86,7 @@ else {
                 else { // If is file
                         if (strpos($file, '.php') !== false || strpos($file, '.py') !== false || strpos($file, '.pl') !== false) { // Currently only selects PHP, Python and Perl scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file)) {
+                                if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file) || detect_shell($arr)) {
                                 	report_file($file);
                                 	$f++;
                                 }
