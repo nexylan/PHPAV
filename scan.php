@@ -47,7 +47,7 @@ function detect_onelineshell($filecontent) {
 	return false;
 }
 
-// Detect escaped
+// Detect php files in upload folder
 function detect_upload($filename) {
 	if (preg_match("#/wp-content/uploads#",$filename)) {
 		return true;
@@ -55,6 +55,7 @@ function detect_upload($filename) {
 	return false;
 }
 
+// Detect webshells patterns
 function detect_shell($filecontent) {
 	global $shells;
 	foreach ($shells as $shell) {
