@@ -55,7 +55,7 @@ function detect_upload($filename) {
 }
 
 function detect_shell($filecontent) {
-	if (preg_match("/[A-Za-z0-9\\\]{100}/",implode($filecontent))) {
+	if (preg_match("/(\\x[0-9]{2})(?=\1{30})/",implode($filecontent))) {
 		return true;
 	}
 	return false;
