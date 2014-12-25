@@ -1,5 +1,7 @@
 <?php
 
+ini_set('memory_limit','512M');
+
 /*
     This file is part of PHPAV.
 
@@ -32,7 +34,6 @@ $colors = new Colors();
 function detect_obfuscated($filecontent) {
 	$weirdlength = 10000;
 	if (isset($filecontent[0]) && strlen($filecontent[0]) > $weirdlength && preg_match("/[A-Za-z0-9\\\]{$weirdlength}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
-		echo $filecontent;
 		return true;
 	}
 	return false;
