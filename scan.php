@@ -67,6 +67,7 @@ function detect_shell($filecontent) {
 	return false;
 }
 
+// Display a report of infected file
 function report_file($file,$reason) {
 	global $colors;
 
@@ -74,6 +75,7 @@ function report_file($file,$reason) {
     echo $colors->getColoredString("\t$file\n","light_blue");
 }
 
+// Delete the infected file with/without confirmation
 function delete_file($file,$content,$confirmation) {
     global $colors;
 
@@ -97,6 +99,7 @@ function delete_file($file,$content,$confirmation) {
     }
 }
 
+// Propose and apply patch
 function patch_file($file,$content) {
     $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
     $fp = fopen("$file.fixed", 'w');
@@ -108,10 +111,18 @@ function patch_file($file,$content) {
     exec("diff -u $file $file.fixed > fix.patch");
 
     $diff = file("fix.patch");
-    echo "I'm proposing the following patch. What do you think ?\n";
+    echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
     echo implode($diff);
 
-     $input = fgetc(STDIN);
+    $input = fgetc(STDIN);
+    echo $colors->getColoredString("Apply ? (y/n)","cyan");
+    if ($input == 'y') {
+            exec ("patch $file < fix.patch");
+    }
+    else {
+        echo "No patch applied";
+    }
+    $input = fgetc(STDIN);
 }
 
 
