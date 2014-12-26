@@ -84,9 +84,10 @@ function delete_file($file,$content,$confirmation) {
 
     if ($confirmation) {
         echo $colors->getColoredString("Delete ? (y/n)","cyan");
-        $input = fgetc(STDIN);
+        $handle = fopen ("php://stdin","r");
+        $input = fgets($handle);
 
-        if ($input == 'y')
+        if (trim($input) == 'y')
         {
             unlink($file);
         }
@@ -114,12 +115,14 @@ function patch_file($file,$content) {
 
     $diff = file("fix.patch");
     echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
-    echo implode($diff);
+    
+    echo "\n".implode($diff)."\n";
 
 
     echo $colors->getColoredString("Apply ? (y/n)","cyan");
-    $input = fgetc(STDIN);
-    if ($input == 'y') {
+    $handle = fopen ("php://stdin","r");
+    $input = fgets($handle);
+    if (trim($input) == 'y') {
             exec ("patch $file < fix.patch");
     }
     else {
