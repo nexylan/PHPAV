@@ -98,12 +98,13 @@ function delete_file($file,$content,$confirmation) {
 }
 
 function patch_file($file,$content) {
-    $newfile = preg_replace("/^.*<\?php/","<?php",$content);
+    $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
     $fp = fopen("$file.fixed", 'w');
     fwrite ($fp,$newfile);
     for ($i=1;$i<sizeof($content);$i++) {
         fwrite($fp,$content[$i]);
     }
+    fclose($fp);
     exec("diff -u $file $file.fixed > fix.patch");
 
     $diff = file("fix.patch");
