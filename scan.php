@@ -115,7 +115,7 @@ else {
                                 }
                                 if(detect_onelineshell($arr)) {
                                     report_file($file,"one-line file with eval");
-                                    delete($file,implode($arr));
+                                    delete_file($file,implode($arr));
                                     $f++;
                                 }
                                 if (detect_upload ($file)) {
