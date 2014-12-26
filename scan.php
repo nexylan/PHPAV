@@ -98,7 +98,7 @@ function delete_file($file,$content,$confirmation) {
 }
 
 function patch_file($file,$content) {
-    echo preg_replace("/^.*?><?php/","<?php",$content[0]);
+    echo preg_replace("/^.*<\?php/","<?php",$content[0]);
 }
 
 
