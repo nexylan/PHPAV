@@ -58,7 +58,7 @@ function detect_upload($filename) {
 // Detect webshells patterns
 function detect_shell($filecontent) {
 	global $shells;
-    
+
 	foreach ($shells as $shell) {
 		if (strpos(implode($filecontent),$shell)) {
 			return true;
@@ -118,8 +118,10 @@ else {
                                     $f++;
                                 }
                                 if(detect_onelineshell($arr)) {
-                                    report_file($file,"one-line file with eval");
-                                    delete_file($file,implode($arr));
+                                    report_file($file,"First-line file with eval");
+                                    if (sizeof($arr) == 1) {
+                                        delete_file($file,implode($arr));
+                                    }
                                     $f++;
                                 }
                                 if (detect_upload ($file)) {
