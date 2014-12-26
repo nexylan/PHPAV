@@ -78,7 +78,7 @@ function delete_file($file,$content) {
     global $colors;
 
     echo $colors->getColoredString("This file ($file) containing the following code :\n","cyan");
-    echo $content;
+    echo "\t".$content."\n";
 
     echo $colors->getColoredString("Delete ? (y/n)","cyan");
     $input = fgetc(STDIN);
