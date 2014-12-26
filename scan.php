@@ -97,6 +97,11 @@ function delete_file($file,$content,$confirmation) {
     }
 }
 
+function patch_file($file,$content) {
+    echo preg_replace("/^.*?><?php/","<?php",$content[0]);
+}
+
+
 // Main(void)
 if (empty($argv[1])) die("Usage: php find.php directory_to_scan > infected.txt\n");
 else {
@@ -129,6 +134,9 @@ else {
                                     report_file($file,"First-line file with eval");
                                     if (sizeof($arr) == 1) {
                                         delete_file($file,implode($arr),false);
+                                    }
+                                    else {
+                                        patch_file($file,$arr);
                                     }
                                     $f++;
                                 }
