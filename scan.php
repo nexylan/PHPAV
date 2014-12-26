@@ -58,6 +58,7 @@ function detect_upload($filename) {
 // Detect webshells patterns
 function detect_shell($filecontent) {
 	global $shells;
+    
 	foreach ($shells as $shell) {
 		if (strpos(implode($filecontent),$shell)) {
 			return true;
@@ -68,11 +69,14 @@ function detect_shell($filecontent) {
 
 function report_file($file,$reason) {
 	global $colors;
+
 	echo $colors->getColoredString("Infected file (reason : $reason) :\n","red");
     echo $colors->getColoredString("\t$file\n","light_blue");
 }
 
 function delete_file($file,$content) {
+    global $colors;
+
     echo $colors->getColoredString("This file ($file) containing the following code :\n","cyan");
     echo $content;
 
