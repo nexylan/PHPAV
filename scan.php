@@ -102,7 +102,7 @@ function delete_file($file,$content,$confirmation) {
 // Propose and apply patch
 function patch_file($file,$content) {
     global $colors;
-    
+
     $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
     $fp = fopen("$file.fixed", 'w');
     fwrite ($fp,$newfile);
@@ -116,15 +116,15 @@ function patch_file($file,$content) {
     echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
     echo implode($diff);
 
-    $input = fgetc(STDIN);
+
     echo $colors->getColoredString("Apply ? (y/n)","cyan");
+    $input = fgetc(STDIN);
     if ($input == 'y') {
             exec ("patch $file < fix.patch");
     }
     else {
         echo "No patch applied";
     }
-    $input = fgetc(STDIN);
 }
 
 
