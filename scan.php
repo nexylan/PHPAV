@@ -104,9 +104,9 @@ function patch_file($file,$content) {
     for ($i=1;$i<sizeof($content)) {
         fwrite($fp,$content[$i]);
     }
-    xdiff_file_diff($file,$file.fixed,'temp.diff');
+    exec("diff -u $file $file.fixed > fix.patch");
 
-    $diff = file("temp.diff");
+    $diff = file("fix.patch");
     echo "I'm proposing the following patch. What do you think ?";
     echo implode($diff);
 }
