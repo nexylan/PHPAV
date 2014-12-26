@@ -74,18 +74,26 @@ function report_file($file,$reason) {
     echo $colors->getColoredString("\t$file\n","light_blue");
 }
 
-function delete_file($file,$content) {
+function delete_file($file,$content,$confirmation) {
     global $colors;
 
     echo $colors->getColoredString("This file ($file) containing the following code :\n","cyan");
     echo "\t".$content."\n";
 
-    echo $colors->getColoredString("Delete ? (y/n)","cyan");
-    $input = fgetc(STDIN);
+    if ($confirmation) {
+        echo $colors->getColoredString("Delete ? (y/n)","cyan");
+        $input = fgetc(STDIN);
 
-    if ($input == 'y')
-    {
-        unlink($file);
+        if ($input == 'y')
+        {
+            unlink($file);
+        }
+        else {
+            echo "$input";
+        }
+    }
+    else {
+        unlink ($file);
     }
 }
 
@@ -120,7 +128,7 @@ else {
                                 if(detect_onelineshell($arr)) {
                                     report_file($file,"First-line file with eval");
                                     if (sizeof($arr) == 1) {
-                                        delete_file($file,implode($arr));
+                                        delete_file($file,implode($arr),false);
                                     }
                                     $f++;
                                 }
