@@ -108,8 +108,10 @@ function patch_file($file,$content) {
     exec("diff -u $file $file.fixed > fix.patch");
 
     $diff = file("fix.patch");
-    echo "I'm proposing the following patch. What do you think ?";
+    echo "I'm proposing the following patch. What do you think ?\n";
     echo implode($diff);
+
+     $input = fgetc(STDIN);
 }
 
 
