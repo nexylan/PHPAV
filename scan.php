@@ -98,7 +98,14 @@ function delete_file($file,$content,$confirmation) {
 }
 
 function patch_file($file,$content) {
-    echo preg_replace("/^.*<\?php/","<?php",$content[0]);
+    $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
+    $fp = fopen("$file.fixed", 'w');
+    fwrite ($fp,$newfile);
+    xdiff_file_diff($file,$file.fixed,'temp.diff');
+
+    $diff = file("temp.diff");
+    echo "I'm proposing the following patch. What do you think ?";
+    echo implode($diff);
 }
 
 
