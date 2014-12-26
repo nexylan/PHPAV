@@ -101,6 +101,8 @@ function delete_file($file,$content,$confirmation) {
 
 // Propose and apply patch
 function patch_file($file,$content) {
+    global $colors;
+    
     $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
     $fp = fopen("$file.fixed", 'w');
     fwrite ($fp,$newfile);
