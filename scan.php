@@ -101,7 +101,7 @@ function patch_file($file,$content) {
     $newfile = preg_replace("/^.*<\?php/","<?php",$content);
     $fp = fopen("$file.fixed", 'w');
     fwrite ($fp,$newfile);
-    for ($i=1;$i<sizeof($content)) {
+    for ($i=1;$i<sizeof($content);$i++) {
         fwrite($fp,$content[$i]);
     }
     exec("diff -u $file $file.fixed > fix.patch");
