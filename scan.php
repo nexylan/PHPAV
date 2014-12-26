@@ -66,9 +66,23 @@ function detect_shell($filecontent) {
 	return false;
 }
 
-function report_file($file) {
+function report_file($file,$reason) {
 	global $colors;
-	echo $colors->getColoredString("Infected file : $file\n","red");
+	echo $colors->getColoredString("Infected file (reason : $reason) :\n","red");
+    echo $colors->getColoredString("\t$file\n","light_blue");
+}
+
+function delete_file($file,$content) {
+    echo $colors->getColoredString("This file ($file) containing the following code :\n","cyan");
+    echo $content;
+
+    echo $colors->getColoredString("Delete ? (y/n)","cyan");
+    $input = fgetc(STDIN);
+
+    if ($input == 'y')
+    {
+        unlink($file);
+    }
 }
 
 // Main(void)
@@ -95,8 +109,21 @@ else {
                 else { // If is file
                         if (preg_match("/\.php$/",$file)) { // Currently only selects PHP scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file) || detect_shell($arr)) {
-                                	report_file($file);
+                                if (detect_obfuscated($arr)) {
+                                    report_file($file,"obfuscated code on first line");
+                                    $f++;
+                                }
+                                if(detect_onelineshell($arr)) {
+                                    report_file($file,"one-line file with eval");
+                                    delete($file,implode($arr));
+                                    $f++;
+                                }
+                                if (detect_upload ($file)) {
+                                    report_file($file,"PHP file in wordpress upload dir");
+                                    $f++;
+                                }
+                                if (detect_shell($arr)) {
+                                    report_file($file,"Shell script pattern");
                                 	$f++;
                                 }
                             }
