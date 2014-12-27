@@ -1,1 +1,2 @@
 killall -9
+FilesMan

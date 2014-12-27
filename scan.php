@@ -164,7 +164,7 @@ else {
                                 if(detect_onelineshell($arr)) {
                                     report_file($file,"First-line file with eval");
                                     if (sizeof($arr) == 1) {
-                                        delete_file($file,implode($arr),false);
+                                        delete_file($file,implode($arr),true);
                                     }
                                     else {
                                         patch_file($file,$arr);
