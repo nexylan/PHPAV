@@ -58,6 +58,7 @@ function detect_upload($filename) {
 // Detect webshells patterns
 function detect_shell($filecontent) {
 	global $shells;
+
 	foreach ($shells as $shell) {
 		if (strpos(implode($filecontent),$shell)) {
 			return true;
@@ -66,10 +67,69 @@ function detect_shell($filecontent) {
 	return false;
 }
 
-function report_file($file) {
+// Display a report of infected file
+function report_file($file,$reason) {
 	global $colors;
-	echo $colors->getColoredString("Infected file : $file\n","red");
+
+	echo $colors->getColoredString("Infected file (reason : $reason) :\n","red");
+    echo $colors->getColoredString("\t$file\n","light_blue");
 }
+
+// Delete the infected file with/without confirmation
+function delete_file($file,$content,$confirmation) {
+    global $colors;
+
+    echo $colors->getColoredString("This file ($file) containing the following code :\n","cyan");
+    echo "\t".$content."\n";
+
+    if ($confirmation) {
+        echo $colors->getColoredString("Delete ? (y/n)","cyan");
+        $handle = fopen ("php://stdin","r");
+        $input = fgets($handle);
+
+        if (trim($input) == 'y')
+        {
+            unlink($file);
+        }
+        else {
+            echo "$input";
+        }
+    }
+    else {
+        unlink ($file);
+    }
+}
+
+// Propose and apply patch
+function patch_file($file,$content) {
+    global $colors;
+
+    $newfile = preg_replace("/^.*<\?php/","<?php",$content[0]);
+    $fp = fopen("$file.fixed", 'w');
+    fwrite ($fp,$newfile);
+    for ($i=1;$i<sizeof($content);$i++) {
+        fwrite($fp,$content[$i]);
+    }
+    fclose($fp);
+    exec("diff -u $file $file.fixed > fix.patch");
+
+    $diff = file("fix.patch");
+    echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
+    
+    echo "\n".implode($diff)."\n";
+
+
+    echo $colors->getColoredString("Apply ? (y/n)","cyan");
+    $handle = fopen ("php://stdin","r");
+    $input = fgets($handle);
+    if (trim($input) == 'y') {
+            exec ("patch $file < fix.patch");
+    }
+    else {
+        echo "No patch applied";
+    }
+}
+
 
 // Main(void)
 if (empty($argv[1])) die("Usage: php find.php directory_to_scan > infected.txt\n");
@@ -95,8 +155,26 @@ else {
                 else { // If is file
                         if (preg_match("/\.php$/",$file)) { // Currently only selects PHP scripts for scanning
                                 $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr) || detect_onelineshell($arr) || detect_upload ($file) || detect_shell($arr)) {
-                                	report_file($file);
+                                if (detect_obfuscated($arr)) {
+                                    report_file($file,"obfuscated code on first line");
+                                    $f++;
+                                }
+                                if(detect_onelineshell($arr)) {
+                                    report_file($file,"First-line file with eval");
+                                    if (sizeof($arr) == 1) {
+                                        delete_file($file,implode($arr),false);
+                                    }
+                                    else {
+                                        patch_file($file,$arr);
+                                    }
+                                    $f++;
+                                }
+                                if (detect_upload ($file)) {
+                                    report_file($file,"PHP file in wordpress upload dir");
+                                    $f++;
+                                }
+                                if (detect_shell($arr)) {
+                                    report_file($file,"Shell script pattern");
                                 	$f++;
                                 }
                             }
