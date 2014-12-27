@@ -41,7 +41,7 @@ function detect_obfuscated($filecontent) {
 
 // Detect eval functions on first line
 function detect_onelineshell($filecontent) {
-	if (isset($filecontent[0]) && preg_match("/eval\(/",$filecontent[0])) {
+	if (isset($filecontent[0]) && preg_match("/(GLOBALS|eval\()/",$filecontent[0])) {
 		return true;
 	}
 	return false;
