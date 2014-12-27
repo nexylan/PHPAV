@@ -49,7 +49,7 @@ function detect_onelineshell($filecontent) {
 
 // Detect php files in upload folder
 function detect_upload($filename) {
-	if (preg_match("#/wp-content/uploads#",$filename)) {
+	if (preg_match("#/wp-content/uploads#",$filename) && filesize($filename) > 1024) {
 		return true;
 	}
 	return false;
@@ -113,20 +113,22 @@ function patch_file($file,$content) {
     fclose($fp);
     exec("diff -u $file $file.fixed > fix.patch");
 
-    $diff = file("fix.patch");
-    echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
-    
-    echo "\n".implode($diff)."\n";
+    if (filesize("fix.patch") > 0) {
+        $diff = file("fix.patch");
+        echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
+        
+        echo "\n".implode($diff)."\n";
 
 
-    echo $colors->getColoredString("Apply ? (y/n)","cyan");
-    $handle = fopen ("php://stdin","r");
-    $input = fgets($handle);
-    if (trim($input) == 'y') {
-            exec ("patch $file < fix.patch");
+        echo $colors->getColoredString("Apply ? (y/n)","cyan");
+        $handle = fopen ("php://stdin","r");
+        $input = fgets($handle);
+        if (trim($input) == 'y') {
+                exec ("patch $file < fix.patch");
+        }
+        else {
+            echo "No patch applied";
     }
-    else {
-        echo "No patch applied";
     }
 }
 
