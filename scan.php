@@ -41,7 +41,7 @@ function detect_obfuscated($filecontent) {
 
 // Detect eval functions on first line
 function detect_onelineshell($filecontent) {
-	if (isset($filecontent[0]) && preg_match("/(GLOBALS|eval\()/",$filecontent[0])) {
+	if ((isset($filecontent[0]) && preg_match("/(GLOBALS|eval\(|system\()/",$filecontent[0])) || (isset($filecontent[1]) && preg_match("/(GLOBALS|eval\(|system\()/",$filecontent[1]))) {
 		return true;
 	}
 	return false;
@@ -60,7 +60,7 @@ function detect_shell($filecontent) {
 	global $shells;
 
 	foreach ($shells as $shell) {
-		if (strpos(implode($filecontent),$shell)) {
+		if (strpos(implode($filecontent),trim($shell))) {
 			return true;
 		}
 	}
@@ -177,7 +177,7 @@ else {
                                 }
                                 if (detect_shell($arr)) {
                                     report_file($file,"Shell script pattern");
-                                	$f++;
+                                    $f++;
                                 }
                             }
                         }
