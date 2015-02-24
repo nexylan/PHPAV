@@ -43,7 +43,7 @@ function detect_obfuscated($filecontent) {
 function detect_onelineshell($filecontent) {
     $lines = 3;
     for($i=0;$i<$lines;$i++) {
-    	if (isset($filecontent[$i]) && preg_match("/(GLOBALS|eval\(|system\()/",$filecontent[$i])) {
+    	if (isset($filecontent[$i]) && preg_match("/(eval\(|system\()/",$filecontent[$i])) {
     		return true;
     	}
     }
