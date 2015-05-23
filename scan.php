@@ -47,6 +47,9 @@ function detect_onelineshell($filecontent) {
     		return true;
     	}
     }
+    	if (isset($filecontent[sizeof($filecontent)-1]) && preg_match("/(eval\(|system\()/",$filecontent[sizeof($filecontent)-1])) {
+    		return true;
+	}
 	return false;
 }
 
