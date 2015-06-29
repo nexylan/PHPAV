@@ -32,9 +32,12 @@ $colors = new Colors();
 
 // Detect more than 10000 consecutive characters on first line
 function detect_obfuscated($filecontent) {
-	$weirdlength = 10000;
-	if (isset($filecontent[0]) && strlen($filecontent[0]) > $weirdlength && preg_match("/[A-Za-z0-9\\\]{$weirdlength}/",$filecontent[0])) { // If a line contains more than 10,000 characters, write it to stdout
-		return true;
+	$weirdlength = 1000;
+	//if (isset($filecontent[1]) && strlen($filecontent[1]) > $weirdlength && preg_match("/[A-Za-z0-9\\\]{$weirdlength}/",$filecontent[1])) { // If a line contains more than 10,000 characters, write it to stdout
+	for ($line=0;$line<=1;$line++) {
+		if (isset($filecontent[$line]) && strlen($filecontent[$line]) > $weirdlength ) { // If a line contains more than 10,000 characters, write it to stdout
+			return true;
+		}
 	}
 	return false;
 }
