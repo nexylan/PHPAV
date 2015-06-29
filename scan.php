@@ -134,6 +134,7 @@ function patch_file($file,$content) {
         $input = fgets($handle);
         if (trim($input) == 'y') {
                 exec ("patch $file < fix.patch");
+		unlink "fix.patch";
         }
         else {
             echo "No patch applied";
