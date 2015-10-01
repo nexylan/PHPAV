@@ -141,6 +141,7 @@ function patch_file($file,$content) {
             echo "No patch applied";
     }
     }
+    unlink("fix.patch");
 }
 
 
