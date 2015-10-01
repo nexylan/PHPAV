@@ -171,6 +171,7 @@ else {
                                 if (detect_obfuscated($arr)) {
                                     report_file($file,"obfuscated code on first line");
                                     $f++;
+				    continue;
                                 }
                                 if(detect_onelineshell($arr)) {
                                     report_file($file,"First-line file with eval");
@@ -181,14 +182,17 @@ else {
                                         patch_file($file,$arr);
                                     }
                                     $f++;
+				    continue;
                                 }
                                 if (detect_upload ($file)) {
                                     report_file($file,"PHP file in wordpress upload dir");
                                     $f++;
+				    continue;
                                 }
                                 if (detect_shell($arr)) {
                                     report_file($file,"Shell script pattern");
                                     $f++;
+				    continue;
                                 }
                             }
                         }
