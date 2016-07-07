@@ -25,7 +25,7 @@ ini_set('memory_limit','512M');
     http://www.nexylan.com/
 */
 
-include (dirname(__FILE__).'/lib/color.class.php');
+require_once __DIR__.'/vendor/autoload.php';
 // We are Gentoo users, we love color in bash shell :)
 $colors = new Colors();
 
