@@ -5,7 +5,7 @@ PHP CLI Virus/Malware Scanner
 
 A simple console framework for detected infected PHP files among Web servers.
 
-@copyright [Nexylan.com](http://www.nexylan.com) - 2014
+@copyright [Nexylan.com](http://www.nexylan.com) - 2016
 
 Usage
 ---
