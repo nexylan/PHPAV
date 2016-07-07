@@ -1,0 +1,26 @@
+{
+    "name": "nexylan/phpav",
+    "description": "PHP CLI Virus/Malware Scanner",
+    "keywords": ["Virus", "Malware", "Infection", "Detector"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gaetan ALLART",
+            "email": "gaetan@nexylan.com"
+        },
+        {
+            "name": "Sullivan SENECHAL",
+            "email": "soullivaneuh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3 || ^7.0"
+    },
+    "autoload": {
+        "files": [
+            "lib/color.class.php"
+        ]
+    },
+    "bin": ["phpav"]
+}

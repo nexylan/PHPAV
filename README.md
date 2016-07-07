@@ -7,12 +7,21 @@ A simple console framework for detected infected PHP files among Web servers.
 
 @copyright [Nexylan.com](http://www.nexylan.com) - 2016
 
+Installation
+---
+
+You can install it globally thanks to composer:
+
+```bash
+composer global require nexylan/phpav
+```
+
 Usage
 ---
 ### via CLI
 
-```
-php scan.php /path/to/scan
+```bash
+phpav /path/to/scan
 ```
 
 Inspiration
@@ -39,7 +48,7 @@ TODO
 - Create whitelist database
 - Automatic fix/quarantine
 - Doc
-	
+
 Disclaimer
 ---
 This software is provided "as is" without warranty of any kind, either express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. In no event shall the author be liable for any damages whatsoever including direct, indirect, incidental, consequential, loss of business profits or special damages, even if the author has been advised of the possibility of such damages.

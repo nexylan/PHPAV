@@ -17,17 +17,17 @@ ini_set('memory_limit','512M');
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-	
+
     PHPAV is coded and maintained by Gaetan ALLART.
-	
+
     © Gaetan ALLART 2014
-	
+
     http://www.nexylan.com/
 */
 
-include (dirname(__FILE__).'/lib/color.class.php');
+require_once __DIR__.'/vendor/autoload.php';
 // We are Gentoo users, we love color in bash shell :)
-$colors = new Colors();	
+$colors = new Colors();
 
 
 // Detect more than 10000 consecutive characters on first line
@@ -125,7 +125,7 @@ function patch_file($file,$content) {
     if (filesize("fix.patch") > 0) {
         $diff = file("fix.patch");
         echo $colors->getColoredString( "I'm proposing the following patch. What do you think ?\n","cyan");
-        
+
         echo "\n".implode($diff)."\n";
 
 
