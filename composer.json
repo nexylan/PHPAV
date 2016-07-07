@@ -21,5 +21,6 @@
         "files": [
             "lib/color.class.php"
         ]
-    }
+    },
+    "bin": ["phpav"]
 }
