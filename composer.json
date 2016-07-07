@@ -17,6 +17,9 @@
     "require": {
         "php": "^5.3 || ^7.0"
     },
+    "require-dev": {
+        "sllh/php-cs-fixer-styleci-bridge": "^2.1"
+    },
     "autoload": {
         "files": [
             "lib/color.class.php"
