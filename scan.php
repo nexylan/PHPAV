@@ -69,13 +69,30 @@ function detect_shell($filecontent)
     return false;
 }
 
+// Check whitelist
+function in_whitelist($filename)
+{
+    global $whitelist;
+
+    foreach ($whitelist as $wl) {
+        if (strpos(trim($wl), $filename)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // Display a report of infected file
 function report_file($file, $reason)
 {
     global $colors;
 
-    echo $colors->getColoredString("Infected file (reason : $reason) :\n", 'red');
-    echo $colors->getColoredString("\t$file\n", 'light_blue');
+    if (!in_whitelist($file))
+    {
+        echo $colors->getColoredString("Infected file (reason : $reason) :\n", 'red');
+        echo $colors->getColoredString("\t$file\n", 'light_blue');
+    }
 }
 
 // Delete the infected file with/without confirmation
@@ -135,6 +152,7 @@ function patch_file($file, $content)
     unlink('fix.patch');
 }
 
+
 // Main(void)
 if (empty($argv[1])) {
     die("Usage: php find.php directory_to_scan > infected.txt\n");
@@ -147,13 +165,10 @@ if (empty($argv[1])) {
 
         // Preload data
         $shells = file(dirname(__FILE__).'/data/webshells.txt');
+        $whitelist = file(dirname(__FILE__).'/data/whitelist.txt');
 
         foreach ($files as $file) {
-        //if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
-                    //echo $colors->getColoredString("Processed " . $c . " files, found " . $f . "\n","purple");
-                //}
                 if (is_dir($file) === true) { // Not in use, was used to check directory traversal was working properly
-                        //echo "Traversing into " . strval($file);
                 } else { // If is file
                         if (preg_match("/\.php$/", $file)) { // Currently only selects PHP scripts for scanning
                             $arr = file($file); // Puts each line of the file into an array element
