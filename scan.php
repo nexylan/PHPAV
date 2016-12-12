@@ -88,8 +88,7 @@ function report_file($file, $reason)
 {
     global $colors;
 
-    if (!in_whitelist($file))
-    {
+    if (!in_whitelist($file)) {
         echo $colors->getColoredString("Infected file (reason : $reason) :\n", 'red');
         echo $colors->getColoredString("\t$file\n", 'light_blue');
     }
@@ -151,7 +150,6 @@ function patch_file($file, $content)
     }
     unlink('fix.patch');
 }
-
 
 // Main(void)
 if (empty($argv[1])) {
