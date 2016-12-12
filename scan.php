@@ -75,7 +75,7 @@ function in_whitelist($filename)
     global $whitelist;
 
     foreach ($whitelist as $wl) {
-        if (strpos(trim($wl), $filename)) {
+        if (strpos($filename, trim($wl))) {
             return true;
         }
     }
