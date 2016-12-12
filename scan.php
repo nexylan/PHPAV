@@ -148,7 +148,7 @@ if (empty($argv[1])) {
         // Preload data
         $shells = file(dirname(__FILE__).'/data/webshells.txt');
 
-    foreach ($files as $file) {
+        foreach ($files as $file) {
         //if (($c % 10000) == 0 && $c > 0) { // Display status for every 10,000 files
                     //echo $colors->getColoredString("Processed " . $c . " files, found " . $f . "\n","purple");
                 //}
@@ -156,12 +156,20 @@ if (empty($argv[1])) {
                         //echo "Traversing into " . strval($file);
                 } else { // If is file
                         if (preg_match("/\.php$/", $file)) { // Currently only selects PHP scripts for scanning
-                                $arr = file($file); // Puts each line of the file into an array element
-                                if (detect_obfuscated($arr)) {
-                                    report_file($file, 'obfuscated code on first line');
-                                    ++$f;
-                                    continue;
-                                }
+                            $arr = file($file); // Puts each line of the file into an array element
+
+                            if (detect_shell($arr)) {
+                                report_file($file, 'Shell script pattern');
+                                ++$f;
+                                continue;
+                            }
+
+                            if (detect_obfuscated($arr)) {
+                                report_file($file, 'obfuscated code on first line');
+                                ++$f;
+                                continue;
+                            }
+
                             if (detect_onelineshell($arr)) {
                                 report_file($file, 'First-line file with eval');
                                 if (count($arr) == 1) {
@@ -172,18 +180,14 @@ if (empty($argv[1])) {
                                 ++$f;
                                 continue;
                             }
+
                             if (detect_upload($file)) {
                                 report_file($file, 'PHP file in wordpress upload dir');
                                 ++$f;
                                 continue;
                             }
-                            if (detect_shell($arr)) {
-                                report_file($file, 'Shell script pattern');
-                                ++$f;
-                                continue;
-                            }
                         }
+                    }
+                    ++$c;
                 }
-        ++$c;
-    }
-}
+            }
