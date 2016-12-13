@@ -1,8 +1,8 @@
 killall -9
 FilesMan
 Hacked by d3b
-eval(base64_decode(
-"base" . "64_decode"
-; for($i=0; $i < strlen(
-?php ${
-=$GLOBALS;${
+eval\(base64_decode\(
+"base" \. "64_decode"
+; for\(\$i=0; \$i < strlen\(
+\?php \${
+=\$GLOBALS;\${
