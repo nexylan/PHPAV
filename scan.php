@@ -157,7 +157,15 @@ if (empty($argv[1])) {
 } else {
     echo $colors->getColoredString('Scanning '.$argv[1]." for potential obfuscated malware...\n\n", 'green');
     $data = array();
-    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1]), RecursiveIteratorIterator::SELF_FIRST); // Grab array of the entire structures of $argv[1] (a directory)
+    if (file_exists($argv[1])) {
+        if (is_dir($argv[1])) {
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1]), RecursiveIteratorIterator::SELF_FIRST); // Grab array of the entire structures of $argv[1] (a directory)
+        }
+        else {
+            // Scan file directly
+            $files = array($argv[1]);
+        }
+
         $c = 0; // Counter for files processed
         $f = 0; // Counter for files with potential malware
 
@@ -202,5 +210,9 @@ if (empty($argv[1])) {
                         }
                     }
                     ++$c;
-                }
-            }
+        }
+    }
+    else {
+        die ("The specified scan path does not exist!");
+    }
+}
