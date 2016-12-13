@@ -160,8 +160,7 @@ if (empty($argv[1])) {
     if (file_exists($argv[1])) {
         if (is_dir($argv[1])) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1]), RecursiveIteratorIterator::SELF_FIRST); // Grab array of the entire structures of $argv[1] (a directory)
-        }
-        else {
+        } else {
             // Scan file directly
             $files = array($argv[1]);
         }
@@ -174,8 +173,8 @@ if (empty($argv[1])) {
         $whitelist = file(dirname(__FILE__).'/data/whitelist.txt');
 
         foreach ($files as $file) {
-                if (is_dir($file) === true) { // Not in use, was used to check directory traversal was working properly
-                } else { // If is file
+            if (is_dir($file) === true) { // Not in use, was used to check directory traversal was working properly
+            } else { // If is file
                         if (preg_match("/\.php$/", $file)) { // Currently only selects PHP scripts for scanning
                             $arr = file($file); // Puts each line of the file into an array element
 
@@ -208,11 +207,10 @@ if (empty($argv[1])) {
                                 continue;
                             }
                         }
-                    }
-                    ++$c;
+            }
+            ++$c;
         }
-    }
-    else {
-        die ("The specified scan path does not exist!");
+    } else {
+        die('The specified scan path does not exist!');
     }
 }
