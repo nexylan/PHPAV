@@ -61,7 +61,7 @@ function detect_shell($filecontent)
     global $shells;
 
     foreach ($shells as $shell) {
-        if (strpos(implode($filecontent), trim($shell))) {
+        if (false !== strpos(implode($filecontent), trim($shell))) {
             return true;
         }
     }
@@ -75,7 +75,7 @@ function in_whitelist($filename)
     global $whitelist;
 
     foreach ($whitelist as $wl) {
-        if (strpos($filename, trim($wl))) {
+        if (false !== strpos($filename, trim($wl))) {
             return true;
         }
     }
