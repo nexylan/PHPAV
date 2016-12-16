@@ -6,3 +6,4 @@ eval\(base64_decode\(
 ; for\(\$i=0; \$i < strlen\(
 \?php \${
 =\$GLOBALS;\${
+\$GLOBALS\[\$GLOBALS\['
