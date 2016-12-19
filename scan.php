@@ -176,38 +176,38 @@ if (empty($argv[1])) {
         foreach ($files as $file) {
             if (is_dir($file) === true) { // Not in use, was used to check directory traversal was working properly
             } else { // If is file
-                        if (preg_match("/\.php$/", $file)) { // Currently only selects PHP scripts for scanning
-                            $arr = file($file); // Puts each line of the file into an array element
+                if (preg_match("/\.php$/", $file)) { // Currently only selects PHP scripts for scanning
+                    $arr = file($file); // Puts each line of the file into an array element
 
-                            if (detect_shell($arr)) {
-                                report_file($file, 'Shell script pattern');
-                                ++$f;
-                                continue;
-                            }
+                    if (detect_shell($arr)) {
+                        report_file($file, 'Shell script pattern');
+                        ++$f;
+                        continue;
+                    }
 
-                            if (detect_obfuscated($arr)) {
-                                report_file($file, 'obfuscated code on first line');
-                                ++$f;
-                                continue;
-                            }
+                    if (detect_obfuscated($arr)) {
+                        report_file($file, 'obfuscated code on first line');
+                        ++$f;
+                        continue;
+                    }
 
-                            if (detect_onelineshell($arr)) {
-                                report_file($file, 'First-line file with eval');
-                                if (count($arr) == 1) {
-                                    delete_file($file, implode($arr), true);
-                                } else {
-                                    patch_file($file, $arr);
-                                }
-                                ++$f;
-                                continue;
-                            }
-
-                            if (detect_upload($file)) {
-                                report_file($file, 'PHP file in wordpress upload dir');
-                                ++$f;
-                                continue;
-                            }
+                    if (detect_onelineshell($arr)) {
+                        report_file($file, 'First-line file with eval');
+                        if (count($arr) == 1) {
+                            delete_file($file, implode($arr), true);
+                        } else {
+                            patch_file($file, $arr);
                         }
+                        ++$f;
+                        continue;
+                    }
+
+                    if (detect_upload($file)) {
+                        report_file($file, 'PHP file in wordpress upload dir');
+                        ++$f;
+                        continue;
+                    }
+                }
             }
             ++$c;
         }
