@@ -61,6 +61,7 @@ function detect_shell($filecontent)
     global $shells;
 
     foreach ($shells as $shell) {
+        $shell = trim($shell);
         if (preg_match("/$shell/", implode($filecontent))) {
             return true;
         }
