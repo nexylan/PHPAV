@@ -11,3 +11,4 @@ __FILE__\);global \$
 ;exit\(\);}}
 if \(isset\(\$_COOKIE\["id"\]\)\) @\$_COOKIE\["user"\]
 "ev"."al\('"
+<h1>#p@\$c@#<\/h1>
