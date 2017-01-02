@@ -1,4 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/scan.php';
+require_once __DIR__.'/vendor/autoload.php';
+
+use Nexy\PHPAV\Console\Application;
+
+$app = new Application();
+$app->run();
