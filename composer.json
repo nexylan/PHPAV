@@ -25,5 +25,8 @@
             "lib/color.class.php"
         ]
     },
+    "config": {
+        "sort-packages": true
+    },
     "bin": ["phpav"]
 }
