@@ -27,7 +27,9 @@ matrix:
 
 install:
   - npm install phplint
+  - composer global require sllh/composer-lint:@stable --prefer-dist --no-interaction
   - composer install
 
 script:
+  - composer validate
   - phplint '*.php' 'lib/**/*.php' 'fixtures/**/*.php' --suppress
