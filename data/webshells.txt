@@ -12,3 +12,4 @@ __FILE__\);global \$
 if \(isset\(\$_COOKIE\["id"\]\)\) @\$_COOKIE\["user"\]
 "ev"."al\('"
 <h1>#p@\$c@#<\/h1>
+=chr\(112\)\."\\x
