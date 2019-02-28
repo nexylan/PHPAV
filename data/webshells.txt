@@ -16,3 +16,5 @@ if \(isset\(\$_COOKIE\["id"\]\)\) @\$_COOKIE\["user"\]
 (\$[a-zA-Z]+\{[0-9]+\}\s\.\s){10}
 @\$_=\/\*\-\/
 =Array\(\);global\$
+@\$s_func
+izleyici
